@@ -12,7 +12,7 @@
 
 <script>
 import { defineComponent, computed } from 'vue'
-import {useRoute} from 'vue-router'
+import { useRoute } from 'vue-router'
 import TheNavbar from '@/components/TheNavbar'
 
 export default defineComponent({

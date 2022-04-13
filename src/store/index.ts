@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { firstLabStore } from './modules/firstLab';
+import {secondLabStore} from "@/store/modules/secondLab";
 
 export default createStore({
   state() {
@@ -30,6 +31,7 @@ export default createStore({
   actions: {
   },
   modules: {
-    firstLab: firstLabStore
+    firstLab: firstLabStore,
+    secondLab: secondLabStore,
   }
 })
