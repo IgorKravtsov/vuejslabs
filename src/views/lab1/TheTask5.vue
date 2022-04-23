@@ -1,7 +1,6 @@
 <template>
   <div class="card">
     <app-accordion>
-
       <app-accordion-item>
         <template v-slot:trigger>
           <h3>Task 5</h3>
@@ -15,41 +14,39 @@
           </div>
 
           <ul v-if="dogList.length" class="dog_list">
-            <li v-for="(dogObj, index) in dogList" :key="Math.random().toString(4)">
-              <h4>{{ index+1 }}. {{ dogObj.breed }}</h4>
+            <li :key="dogObj.breed + Math.random().toString(4)" v-for="(dogObj, index) in dogList">
+              <h4>{{ index + 1 }}. {{ dogObj.breed }}</h4>
             </li>
           </ul>
           <h3 v-else>Please, add a dog for the first</h3>
         </template>
-
       </app-accordion-item>
     </app-accordion>
   </div>
 </template>
 
 <script>
-import {useStore} from "vuex";
-import {computed, ref} from "vue";
-import AppButton from "@/components/ui/AppButton";
-import AppAccordionItem from "@/components/ui/accordion/AppAccordionItem";
-import AppAccordion from "@/components/ui/accordion/AppAccordion";
-import {shuffle} from "@/utils/shuffle";
+import { useStore } from 'vuex'
+import { computed, ref } from 'vue'
+import AppButton from '@/components/ui/AppButton'
+import AppAccordionItem from '@/components/ui/accordion/AppAccordionItem'
+import AppAccordion from '@/components/ui/accordion/AppAccordion'
+import { shuffle } from '@/utils/shuffle'
 
 export default {
-  name: "TheTask5",
-  components: {AppAccordionItem, AppButton, AppAccordion},
+  name: 'TheTask5',
+  components: { AppAccordionItem, AppButton, AppAccordion },
   props: [],
   setup() {
-    const store = useStore();
-    const dogs = computed(() => store.getters["firstLab/dogs"])
+    const store = useStore()
+    const dogs = computed(() => store.getters['firstLab/dogs'])
     const loading = computed(() => store.getters.loading)
 
-    const dogList = ref([]);
-
+    const dogList = ref([])
 
     const addRandom = () => {
       const rand = Math.floor(Math.random() * dogs.value?.length)
-      let breed = {};
+      let breed = {}
       Object.assign(breed, dogs.value[rand])
       dogList.value.unshift(breed) // Add to the top of a list
     }
@@ -60,8 +57,8 @@ export default {
     }
 
     const shuffleList = () => {
-      if(dogList.value?.length) {
-        shuffle(dogList.value);
+      if (dogList.value?.length) {
+        shuffle(dogList.value)
       }
     }
 
@@ -72,20 +69,19 @@ export default {
       deleteRandom,
       shuffleList,
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
+.btn_container {
+  display: flex;
+  width: 550px;
+  justify-content: space-between;
+  margin: 0 auto;
+}
 
-  .btn_container {
-    display: flex;
-    width: 550px;
-    justify-content: space-between;
-    margin: 0 auto;
-  }
-
-  .dog_list {
-    padding-left: 30px;
-  }
+.dog_list {
+  padding-left: 30px;
+}
 </style>

@@ -1,49 +1,50 @@
 <template>
-  <ul>
-<!--    <app-dog-list-item v-for="dogObj in dogs" @select="selectBreed(dogObj)">-->
-<!--      {{ dogObj.breed }}-->
-<!--    </app-dog-list-item>-->
-    <Multiselect
-        v-model="value"
-        :options="selected"
-        mode="multiple"
-    />
+  <ul :key="dog.breed" v-for="dog in dogList" class="list">
+    <app-dog-list-item @select="selectFunc" :selected="checkIsSelected(dog)" :dog="dog" :isChangeColor="isChangeColor">
+      {{ dog.breed }}
+    </app-dog-list-item>
   </ul>
 </template>
 
 <script>
-import {ref, emit, computed} from "vue";
-import AppDogListItem from "@/components/ui/AppDogListItem";
-import Multiselect from '@vueform/multiselect'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import AppDogListItem from '@/components/ui/AppDogListItem'
+// import Multiselect from '@vueform/multiselect'
 
 export default {
-  name: "AppDogList",
-  components: {AppDogListItem, Multiselect},
-  emits: ['select'],
-  props: ['dogs'],
+  name: 'AppDogList',
+  components: { AppDogListItem },
+  emits: ['select', 'checkClick'],
+  props: ['dogs', 'isCanAdd', 'isChangeColor'],
   setup(props, ctx) {
-    // const dogArr = computed(() => props.dogs?.value?.length > 0 ? props.dogs.value : []);
-    // const dogList = ref(dogArr.value.map(dog => ({...dog, isSelected: false})));
-    const value = ref(null)
+    const store = useStore()
+    const selected = computed(() => store.getters['secondLab/selected'])
+    const selectFunc = obj => {
+      if (props.isCanAdd) {
+        store.commit('secondLab/addRemoveSelected', obj.dog)
+        ctx.emit('checkClick', { kostil: false })
+      }
+    }
 
-    const selectBreed = (dog) => {
-      dog.isSelected = !dog.isSelected
-      ctx.emit('select');
+    const checkIsSelected = dog => {
+      return selected.value.findIndex(item => item.breed === dog.breed) !== -1
     }
 
     return {
-      // dogList: dogs,
-      selected: [
-          'Batman',
-          'Spiderman'
-      ],
-      value,
-      selectBreed
+      dogList: props.dogs,
+      selectFunc,
+      checkIsSelected,
+      isChangeColor: props.isChangeColor,
     }
   },
 }
 </script>
 
 <style scoped lang="scss">
- @import '@vueform/multiselect/themes/default.css';
+// @import '@vueform/multiselect/themes/default.css';
+.list {
+  min-height: 50px;
+  text-align: center;
+}
 </style>
