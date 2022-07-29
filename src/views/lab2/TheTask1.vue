@@ -1,5 +1,4 @@
 <template>
-  <!-- <div class="card"> -->
   <app-accordion>
     <app-accordion-item>
       <template v-slot:trigger>
@@ -19,8 +18,6 @@
       </template>
     </app-accordion-item>
   </app-accordion>
-
-  <!-- </div> -->
 </template>
 
 <script>
@@ -38,12 +35,6 @@ export default {
     const dogs = computed(() => store.getters['secondLab/dogs'])
     const loading = computed(() => store.getters.loading)
     const selected = ref([])
-
-    // const changed = (e, a) => console.log(e.target, '', a)
-    // watch(selected, first => {
-    //   console.log('Watch function called with args:', first)
-    //   // First arg function registerCleanup, second is undefined
-    // })
 
     return {
       dogs,

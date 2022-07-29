@@ -9,8 +9,8 @@
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+
 import AppDogListItem from '@/components/ui/AppDogListItem'
-// import Multiselect from '@vueform/multiselect'
 
 export default {
   name: 'AppDogList',
